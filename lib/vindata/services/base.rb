@@ -15,7 +15,7 @@ module VinData
         fail
       end
 
-      def lookup_by_vin vin
+      def details_by_vin vin
         fail
       end
 

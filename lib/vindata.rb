@@ -3,16 +3,16 @@ require 'rest_client'
 
 # Internal files
 require 'vindata/configuration'
-# TODO: Generalize the services require process
-require 'vindata/services/edmunds'
+require 'vindata/services'
 
 module VinData
-  def self.testoutput
-    'VinData working'
+  def self.details_by_vin vin
+    service = Services.get config[:service]
+    service.details_by_vin vin
   end
 
-  def self.lookup_by_vin vin
-    edmunds = Services::Edmunds.new
-    edmunds.lookup_by_vin '1N4AL3APCDNDASDFADF'
+  def self.get_acv data
+    service = Services.get config[:service]
+    service.get_acv data
   end
 end
