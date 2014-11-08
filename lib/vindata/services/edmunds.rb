@@ -13,18 +13,23 @@ module VinData::Services
     def details_by_vin vin
       # Lookup vehicle make/model/year by VIN
       vinlookup = base_url + 'vins/'+vin
-      response = JSON.parse(RestClient.get vinlookup, {:params => {
-        fmt: 'json',
-        api_key: configuration[:api_key]
-        }})
+      begin
+        response = JSON.parse(RestClient.get vinlookup, {:params => {
+          fmt: 'json',
+          api_key: configuration[:api_key]
+          }})
 
-      # TODO: Check data validity here
+        # TODO: Check data validity here
 
-      return {
-        make: response['make']['niceName'],
-        model: response['model']['niceName'],
-        year: response['years'][0]['year']
-      }
+        return {
+          make: response['make']['niceName'],
+          model: response['model']['niceName'],
+          year: response['years'][0]['year']
+        }
+      # Indicates VIN request failed with Edmunds
+      rescue RestClient::BadRequest => err
+        return nil
+      end
     end
 
     # Required Data:
@@ -34,7 +39,7 @@ module VinData::Services
     #   :mileage
     #   :zip
     def get_acv data
-      # TODO: Make sure all proper data was passed
+      return nil unless data[:make] && data[:model] && data[:year] && data[:mileage] && data[:zip]
 
       # Get the style ID by vehicle make/model/year
       stylelookup = base_url + data[:make] + '/' + data[:model] + '/' + data[:year].to_s + '/styles'
@@ -56,12 +61,15 @@ module VinData::Services
         }})
 
       # TODO: Check data validity here
-
-      return {
-        retail: response['tmv']['nationalBasePrice']['usedTmvRetail'],
-        private_party: response['tmv']['nationalBasePrice']['usedPrivateParty'],
-        trade_in: response['tmv']['nationalBasePrice']['usedTradeIn']
-      }
+      if response == nil || response['tmv'] == nil
+        return nil
+      else
+        return {
+          retail: response['tmv']['nationalBasePrice']['usedTmvRetail'],
+          private_party: response['tmv']['nationalBasePrice']['usedPrivateParty'],
+          trade_in: response['tmv']['nationalBasePrice']['usedTradeIn']
+        }
+      end
     end
   end
 end
