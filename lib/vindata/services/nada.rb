@@ -108,18 +108,25 @@ module VinData::Services
       region_id = get_region_by_state data[:state]
 
       client = get_client
-      data = client.call(:get_default_vehicle_and_value_by_vin,
-                         message: { 'vehicleRequest' =>
-                                      { 'Token' => token,
-                                        'Period' => 0,
-                                        'VehicleType' => 'UsedCar',
-                                        'Vin' => data[:vin],
-                                        'Region' => region_id,
-                                        'Mileage' => data[:mileage]
-                                      }
-                                  }
-                        )
-      data.to_hash[:get_default_vehicle_and_value_by_vin_response][:get_default_vehicle_and_value_by_vin_result]
+
+      begin
+        data = client.call(:get_default_vehicle_and_value_by_vin,
+                           message: { 'vehicleRequest' =>
+                                        { 'Token' => token,
+                                          'Period' => 0,
+                                          'VehicleType' => 'UsedCar',
+                                          'Vin' => data[:vin],
+                                          'Region' => region_id,
+                                          'Mileage' => data[:mileage]
+                                        }
+                                    }
+                          )
+        return data.to_hash[:get_default_vehicle_and_value_by_vin_response][:get_default_vehicle_and_value_by_vin_result]
+
+      rescue Savon::SOAPFault => error
+        return false if error.message.include? 'No vehicle found'
+        raise error.message
+      end
     end
   end
 end
