@@ -1,5 +1,5 @@
 # External gems
-require 'rest_client'
+require 'rest_client' if defined?(RestClient)
 
 # Internal files
 require 'vindata/configuration'

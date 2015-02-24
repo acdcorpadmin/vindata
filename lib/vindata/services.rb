@@ -5,7 +5,8 @@ module VinData
     # Supported service list
     def service_list
       [
-        :edmunds
+        :edmunds,
+        :nada
       ]
     end
 
