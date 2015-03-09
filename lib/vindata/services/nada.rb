@@ -20,10 +20,6 @@ module VinData::Services
       'NADA'
     end
 
-    def base_url
-      'https://api.edmunds.com/api/vehicle/v2/'
-    end
-
     def get_token
       # we don't want to get the token every time
       return @token if @token.present?
