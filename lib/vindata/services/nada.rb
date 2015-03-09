@@ -20,12 +20,16 @@ module VinData::Services
       'NADA'
     end
 
+    def base_url
+      nil
+    end
+
     def get_token
       # we don't want to get the token every time
       return @token if @token.present?
 
-      fail 'Need NADA ENVs' unless ENV['NADA_USERNAME'].present? &&
-                                   ENV['NADA_PASSWORD'].present?
+      fail 'NADA requires username and password' unless configuration[:username].present? &&
+                                        configuration[:password].present?
 
       wsdl_path = File.expand_path(File.join(File.dirname(__FILE__), '../wsdls/TestSecureLogin.wsdl'))
       # do auth login to get token
@@ -39,8 +43,8 @@ module VinData::Services
       )
       data = client.call(:get_token,
                          message: { 'tokenRequest' =>
-                                    { 'Username' => ENV['NADA_USERNAME'],
-                                      'Password' => ENV['NADA_PASSWORD']
+                                    { 'Username' => configuration[:username],
+                                      'Password' => configuration[:password]
                                     }
                                   }
                         )
@@ -117,7 +121,14 @@ module VinData::Services
                                         }
                                     }
                           )
-        return data.to_hash[:get_default_vehicle_and_value_by_vin_response][:get_default_vehicle_and_value_by_vin_result]
+        data = data.to_hash[:get_default_vehicle_and_value_by_vin_response][:get_default_vehicle_and_value_by_vin_result]
+        return {
+          common: {
+            retail: data[:retail_plus_vin_acc_mileage],
+            trade_in: data[:trade_in_plus_vin_acc_mileage]
+          },
+          nada: data
+        }
 
       rescue Savon::SOAPFault => error
         return false if error.message.include? 'No vehicle found'

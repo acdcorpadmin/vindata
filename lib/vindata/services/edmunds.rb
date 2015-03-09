@@ -39,7 +39,12 @@ module VinData::Services
     #   :mileage
     #   :zip
     def get_acv data
-      return nil unless data[:make] && data[:model] && data[:year] && data[:mileage] && data[:zip]
+      return nil unless ((data[:make] && data[:model] && data[:year]) || data[:vin]) && data[:mileage] && data[:zip]
+      if data[:vin]
+        car_details = details_by_vin data.delete(:vin)
+        return nil unless car_details
+        data.merge! car_details
+      end
 
       # Get the style ID by vehicle make/model/year
       stylelookup = base_url + data[:make] + '/' + data[:model] + '/' + data[:year].to_s + '/styles'
@@ -65,9 +70,12 @@ module VinData::Services
         return nil
       else
         return {
-          retail: response['tmv']['nationalBasePrice']['usedTmvRetail'],
-          private_party: response['tmv']['nationalBasePrice']['usedPrivateParty'],
-          trade_in: response['tmv']['nationalBasePrice']['usedTradeIn']
+          common: {
+            retail: response['tmv']['nationalBasePrice']['usedTmvRetail'],
+            private_party: response['tmv']['nationalBasePrice']['usedPrivateParty'],
+            trade_in: response['tmv']['nationalBasePrice']['usedTradeIn']
+          },
+          edmunds: response
         }
       end
     end
