@@ -13,7 +13,7 @@ module VinData::Services
   class Nada < Base
 
     def initialize
-      get_token
+      # get_token
     end
 
     def name
@@ -26,7 +26,7 @@ module VinData::Services
 
     def get_token
       # we don't want to get the token every time
-      return @token if @token.present?
+      # return @token if @token.present?
 
       fail 'NADA requires username and password' unless configuration[:username].present? &&
                                                         configuration[:password].present?
