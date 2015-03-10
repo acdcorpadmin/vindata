@@ -1,0 +1,1485 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://webservice.nada.com/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://webservice.nada.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This is NADA Web Service into its vehicle evaluation data.</wsdl:documentation>
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://webservice.nada.com/">
+      <s:element name="ping">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="token" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pingResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="pingResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getYears">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="l_Request" type="tns:GetYearsRequest" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="GetYearsRequest">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:NADAValueRequest" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="NADAValueRequest" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Token" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Period" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="VehicleType" type="tns:VehicleTypes" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="VehicleTypes">
+        <s:restriction base="s:string">
+          <s:enumeration value="UsedCar" />
+          <s:enumeration value="CommercialTruck" />
+          <s:enumeration value="Motorcycle" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="getYearsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getYearsResult" type="tns:ArrayOfLookup_Struc" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfLookup_Struc">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Lookup_Struc" nillable="true" type="tns:Lookup_Struc" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Lookup_Struc">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Code" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Descr" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="getMakes">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="l_Request" type="tns:GetMakesRequest" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="GetMakesRequest">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:NADAValueRequest">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="Year" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="getMakesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getMakesResult" type="tns:ArrayOfLookup_Struc" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getSeries">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="l_Request" type="tns:GetSeriesRequest" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="GetSeriesRequest">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:NADAValueRequest">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="Year" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="MakeCode" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="getSeriesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getSeriesResult" type="tns:ArrayOfLookup_Struc" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getBodyUids">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="l_Request" type="tns:GetBodyUidsRequest" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="GetBodyUidsRequest">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:NADAValueRequest">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="Year" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="MakeCode" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="SeriesCode" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="getBodyUidsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getBodyUidsResult" type="tns:ArrayOfLookup_Struc" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getVehicles">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="vehicleRequest" type="tns:GetVehiclesByVinRequest" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="GetVehiclesByVinRequest">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:NADAValueRequest">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Vin" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="getVehiclesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getVehiclesResult" type="tns:ArrayOfVehicle_Struc" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfVehicle_Struc">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Vehicle_Struc" nillable="true" type="tns:Vehicle_Struc" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Vehicle_Struc">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Uid" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Year" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="MakeCode" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="MakeDescr" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="SeriesCode" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="SeriesDescr" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="BodyCode" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="BodyDescr" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Weight" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="MileageClass" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Gvw" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Gcw" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="getVehicle">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="vehicleRequest" type="tns:GetVehicleByUidRequest" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="GetVehicleByUidRequest">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:NADAValueRequest">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="Uid" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="getVehicleResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getVehicleResult" type="tns:Vehicle_Struc" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getVehicleByVic">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="vehicleRequest" type="tns:GetVehicleByVicRequest" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="GetVehicleByVicRequest">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:NADAValueRequest">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Vic" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="getVehicleByVicResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getVehicleByVicResult" type="tns:Vehicle_Struc" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getAccessories">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="accessoriesRequest" type="tns:GetAccessoriesRequest" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="GetAccessoriesRequest">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:NADAValueRequest">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="Uid" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="Vin" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Region" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="getAccessoriesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getAccessoriesResult" type="tns:ArrayOfAccessory_Struc" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfAccessory_Struc">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Accessory_Struc" nillable="true" type="tns:Accessory_Struc" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Accessory_Struc">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Uid" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="AccDesc" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="AccCode" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="TradeIn" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="Retail" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="Loan" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="IsIncluded" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="IsAdded" type="s:boolean" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="getInclusiveAccessories">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="mutualAccessoriesRequest" type="tns:GetMutualAccessoriesRequest" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="GetMutualAccessoriesRequest">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:NADAValueRequest">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="Uid" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="getInclusiveAccessoriesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getInclusiveAccessoriesResult" type="tns:ArrayOfAccessoryPakgIncl_Struc" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfAccessoryPakgIncl_Struc">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="AccessoryPakgIncl_Struc" nillable="true" type="tns:AccessoryPakgIncl_Struc" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="AccessoryPakgIncl_Struc">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="AccCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="AccPakgInclCode" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="getExclusiveAccessories">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="mutualAccessoriesRequest" type="tns:GetMutualAccessoriesRequest" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getExclusiveAccessoriesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getExclusiveAccessoriesResult" type="tns:ArrayOfAccessoryMultExcl_Struc" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfAccessoryMultExcl_Struc">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="AccessoryMultExcl_Struc" nillable="true" type="tns:AccessoryMultExcl_Struc" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="AccessoryMultExcl_Struc">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="AccCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="AccMultExclCode" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="validateVin">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="l_request" type="tns:ValidateVinRequest" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ValidateVinRequest">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:NADAValueRequest">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="VIN" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="validateVinResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="validateVinResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getMileageAdj">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="mileageAdjRequest" type="tns:GetMileageAdjByUidRequest" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="GetMileageAdjByUidRequest">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:NADAValueRequest">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="Uid" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="Region" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="getMileageAdjResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getMileageAdjResult" type="tns:Mileage_Struc" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="Mileage_Struc">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="MaxAmount" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="MinAmount" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="AverageMileage" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Count" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="MileageTable" type="tns:ArrayOfMileageTable_Struc" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfMileageTable_Struc">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="MileageTable_Struc" nillable="true" type="tns:MileageTable_Struc" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="MileageTable_Struc">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="LowLevel" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="HighLevel" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="AdjAmount" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="RatePerMile" type="s:decimal" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="getRegions">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="l_Request" type="tns:GetRegionsRequest" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="GetRegionsRequest">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:NADAValueRequest" />
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="getRegionsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getRegionsResult" type="tns:ArrayOfLookup_Struc" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getRegionByStateCode">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="l_Request" type="tns:GetRegionByStateCodeRequest" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="GetRegionByStateCodeRequest">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:NADAValueRequest">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="StateCode" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="getRegionByStateCodeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="getRegionByStateCodeResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getTotalAdjFloorValues">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="l_Request" type="tns:GetVehicleValuesByUidRequest" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="GetVehicleValuesByUidRequest">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:NADAValueRequest">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="Uid" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="Region" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="Mileage" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="getTotalAdjFloorValuesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getTotalAdjFloorValuesResult" type="tns:FloorValue_Struc" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="FloorValue_Struc">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Uid" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="AdjustedRetail" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="AdjustedTradeIn" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="AdjustedLoan" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="AdjustedRoughTradeIn" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="AdjustedAvgTradeIn" type="s:decimal" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="getVehicleValueByUid">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="vehicleRequest" type="tns:GetVehicleValuesByUidRequest" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getVehicleValueByUidResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getVehicleValueByUidResult" type="tns:Value_Struc" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="Value_Struc">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Uid" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Msrp" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="AveMileage" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="MileageAdj" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="Retail" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="TradeIn" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="Loan" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="MileAdjRetail" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="MileAdjTradeIn" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="MileAdjLoan" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="AvgTradeIn" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="RoughTradeIn" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="MileAdjAvgTradeIn" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="MileAdjRoughTradeIn" type="s:decimal" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="getBaseVehicleValueByUid">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="vehicleRequest" type="tns:GetVehicleValuesByUidRequest" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getBaseVehicleValueByUidResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getBaseVehicleValueByUidResult" type="tns:StandardValue_Struc" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="StandardValue_Struc">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Uid" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Retail" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="TradeIn" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="Loan" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="RoughTradeIn" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="AvgTradeIn" type="s:decimal" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="getVehicleAndValueByUid">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="vehicleRequest" type="tns:GetVehicleValuesByUidRequest" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getVehicleAndValueByUidResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getVehicleAndValueByUidResult" type="tns:VehicleValue_Struc" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="VehicleValue_Struc">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Uid" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="VehicleYear" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="MakeCode" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="MakeDescr" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="SeriesCode" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="SeriesDescr" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="BodyCode" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="BodyDescr" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Weight" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Msrp" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="AveMileage" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="MileageAdj" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="TradeIn" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="TradeInPlusVinAcc" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="TradeInPlusVinAccMileage" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="Loan" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="LoanPlusVinAcc" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="LoanPlusVinAccMileage" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="Retail" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="RetailPlusVinAcc" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="RetailPlusVinAccMileage" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="AvgTradeIn" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="AvgTradeInPlusVinAcc" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="AvgTradeInPlusVinAccMileage" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="RoughTradeIn" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="RoughTradeInPlusVinAcc" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="RoughTradeInPlusVinAccMileage" type="s:decimal" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="getDefaultVehicleAndValueByVin">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="vehicleRequest" type="tns:GetVehicleValuesByVinRequest" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="GetVehicleValuesByVinRequest">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:NADAValueRequest">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Vin" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Region" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="Mileage" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="getDefaultVehicleAndValueByVinResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getDefaultVehicleAndValueByVinResult" type="tns:VehicleValue_Struc" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getMsrpVehicleAndValueByVin">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="vehicleRequest" type="tns:GetVehicleValuesByMsrpRequest" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="GetVehicleValuesByMsrpRequest">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:NADAValueRequest">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Vin" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Region" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="Mileage" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="Msrp" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="getMsrpVehicleAndValueByVinResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getMsrpVehicleAndValueByVinResult" type="tns:VehicleValue_Struc" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getHighVehicleAndValueByVin">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="vehicleRequest" type="tns:GetVehicleValuesByVinRequest" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getHighVehicleAndValueByVinResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getHighVehicleAndValueByVinResult" type="tns:VehicleValue_Struc" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getLowVehicleAndValueByVin">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="vehicleRequest" type="tns:GetVehicleValuesByVinRequest" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getLowVehicleAndValueByVinResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getLowVehicleAndValueByVinResult" type="tns:VehicleValue_Struc" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getAuctionValues">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="auctionValuesRequest" type="tns:GetAuctionValuesRequest" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="GetAuctionValuesRequest">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:NADAValueRequest">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="Uid" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="Vic" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Region" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="Mileage" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="CustomerId" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="UserId" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="CallingApplication" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="CheckedAccessoriesList" type="tns:ArrayOfCheckedAccessories" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="ArrayOfCheckedAccessories">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="CheckedAccessories" nillable="true" type="tns:CheckedAccessories" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="CheckedAccessories">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="AccCode" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="getAuctionValuesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getAuctionValuesResult" type="tns:AuctionValue_Struc" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="AuctionValue_Struc">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="LowAdjustedAuctionValue" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="AverageAdjustedAuctionValue" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="HighAdjustedAuctionValue" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="DateRange" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="AccessoriesAdjustedList" type="tns:ArrayOfAdjustedAccessories" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfAdjustedAccessories">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="AdjustedAccessories" nillable="true" type="tns:AdjustedAccessories" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="AdjustedAccessories">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="AccCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="AccDesc" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="getExperianAutoCheckReport">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="experianAutocheckRequest" type="tns:GetExperianAutoCheckRequest" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="GetExperianAutoCheckRequest">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Token" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ExperianAccountNumber" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Vin" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="ReportType" type="tns:ExperianAutoCheckReportTypes" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="ExperianAutoCheckReportTypes">
+        <s:restriction base="s:string">
+          <s:enumeration value="VehicleHistory" />
+          <s:enumeration value="Summary" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="getExperianAutoCheckReportResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getExperianAutoCheckReportResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="pingSoapIn">
+    <wsdl:part name="parameters" element="tns:ping" />
+  </wsdl:message>
+  <wsdl:message name="pingSoapOut">
+    <wsdl:part name="parameters" element="tns:pingResponse" />
+  </wsdl:message>
+  <wsdl:message name="getYearsSoapIn">
+    <wsdl:part name="parameters" element="tns:getYears" />
+  </wsdl:message>
+  <wsdl:message name="getYearsSoapOut">
+    <wsdl:part name="parameters" element="tns:getYearsResponse" />
+  </wsdl:message>
+  <wsdl:message name="getMakesSoapIn">
+    <wsdl:part name="parameters" element="tns:getMakes" />
+  </wsdl:message>
+  <wsdl:message name="getMakesSoapOut">
+    <wsdl:part name="parameters" element="tns:getMakesResponse" />
+  </wsdl:message>
+  <wsdl:message name="getSeriesSoapIn">
+    <wsdl:part name="parameters" element="tns:getSeries" />
+  </wsdl:message>
+  <wsdl:message name="getSeriesSoapOut">
+    <wsdl:part name="parameters" element="tns:getSeriesResponse" />
+  </wsdl:message>
+  <wsdl:message name="getBodyUidsSoapIn">
+    <wsdl:part name="parameters" element="tns:getBodyUids" />
+  </wsdl:message>
+  <wsdl:message name="getBodyUidsSoapOut">
+    <wsdl:part name="parameters" element="tns:getBodyUidsResponse" />
+  </wsdl:message>
+  <wsdl:message name="getVehiclesSoapIn">
+    <wsdl:part name="parameters" element="tns:getVehicles" />
+  </wsdl:message>
+  <wsdl:message name="getVehiclesSoapOut">
+    <wsdl:part name="parameters" element="tns:getVehiclesResponse" />
+  </wsdl:message>
+  <wsdl:message name="getVehicleSoapIn">
+    <wsdl:part name="parameters" element="tns:getVehicle" />
+  </wsdl:message>
+  <wsdl:message name="getVehicleSoapOut">
+    <wsdl:part name="parameters" element="tns:getVehicleResponse" />
+  </wsdl:message>
+  <wsdl:message name="getVehicleByVicSoapIn">
+    <wsdl:part name="parameters" element="tns:getVehicleByVic" />
+  </wsdl:message>
+  <wsdl:message name="getVehicleByVicSoapOut">
+    <wsdl:part name="parameters" element="tns:getVehicleByVicResponse" />
+  </wsdl:message>
+  <wsdl:message name="getAccessoriesSoapIn">
+    <wsdl:part name="parameters" element="tns:getAccessories" />
+  </wsdl:message>
+  <wsdl:message name="getAccessoriesSoapOut">
+    <wsdl:part name="parameters" element="tns:getAccessoriesResponse" />
+  </wsdl:message>
+  <wsdl:message name="getInclusiveAccessoriesSoapIn">
+    <wsdl:part name="parameters" element="tns:getInclusiveAccessories" />
+  </wsdl:message>
+  <wsdl:message name="getInclusiveAccessoriesSoapOut">
+    <wsdl:part name="parameters" element="tns:getInclusiveAccessoriesResponse" />
+  </wsdl:message>
+  <wsdl:message name="getExclusiveAccessoriesSoapIn">
+    <wsdl:part name="parameters" element="tns:getExclusiveAccessories" />
+  </wsdl:message>
+  <wsdl:message name="getExclusiveAccessoriesSoapOut">
+    <wsdl:part name="parameters" element="tns:getExclusiveAccessoriesResponse" />
+  </wsdl:message>
+  <wsdl:message name="validateVinSoapIn">
+    <wsdl:part name="parameters" element="tns:validateVin" />
+  </wsdl:message>
+  <wsdl:message name="validateVinSoapOut">
+    <wsdl:part name="parameters" element="tns:validateVinResponse" />
+  </wsdl:message>
+  <wsdl:message name="getMileageAdjSoapIn">
+    <wsdl:part name="parameters" element="tns:getMileageAdj" />
+  </wsdl:message>
+  <wsdl:message name="getMileageAdjSoapOut">
+    <wsdl:part name="parameters" element="tns:getMileageAdjResponse" />
+  </wsdl:message>
+  <wsdl:message name="getRegionsSoapIn">
+    <wsdl:part name="parameters" element="tns:getRegions" />
+  </wsdl:message>
+  <wsdl:message name="getRegionsSoapOut">
+    <wsdl:part name="parameters" element="tns:getRegionsResponse" />
+  </wsdl:message>
+  <wsdl:message name="getRegionByStateCodeSoapIn">
+    <wsdl:part name="parameters" element="tns:getRegionByStateCode" />
+  </wsdl:message>
+  <wsdl:message name="getRegionByStateCodeSoapOut">
+    <wsdl:part name="parameters" element="tns:getRegionByStateCodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="getTotalAdjFloorValuesSoapIn">
+    <wsdl:part name="parameters" element="tns:getTotalAdjFloorValues" />
+  </wsdl:message>
+  <wsdl:message name="getTotalAdjFloorValuesSoapOut">
+    <wsdl:part name="parameters" element="tns:getTotalAdjFloorValuesResponse" />
+  </wsdl:message>
+  <wsdl:message name="getVehicleValueByUidSoapIn">
+    <wsdl:part name="parameters" element="tns:getVehicleValueByUid" />
+  </wsdl:message>
+  <wsdl:message name="getVehicleValueByUidSoapOut">
+    <wsdl:part name="parameters" element="tns:getVehicleValueByUidResponse" />
+  </wsdl:message>
+  <wsdl:message name="getBaseVehicleValueByUidSoapIn">
+    <wsdl:part name="parameters" element="tns:getBaseVehicleValueByUid" />
+  </wsdl:message>
+  <wsdl:message name="getBaseVehicleValueByUidSoapOut">
+    <wsdl:part name="parameters" element="tns:getBaseVehicleValueByUidResponse" />
+  </wsdl:message>
+  <wsdl:message name="getVehicleAndValueByUidSoapIn">
+    <wsdl:part name="parameters" element="tns:getVehicleAndValueByUid" />
+  </wsdl:message>
+  <wsdl:message name="getVehicleAndValueByUidSoapOut">
+    <wsdl:part name="parameters" element="tns:getVehicleAndValueByUidResponse" />
+  </wsdl:message>
+  <wsdl:message name="getDefaultVehicleAndValueByVinSoapIn">
+    <wsdl:part name="parameters" element="tns:getDefaultVehicleAndValueByVin" />
+  </wsdl:message>
+  <wsdl:message name="getDefaultVehicleAndValueByVinSoapOut">
+    <wsdl:part name="parameters" element="tns:getDefaultVehicleAndValueByVinResponse" />
+  </wsdl:message>
+  <wsdl:message name="getMsrpVehicleAndValueByVinSoapIn">
+    <wsdl:part name="parameters" element="tns:getMsrpVehicleAndValueByVin" />
+  </wsdl:message>
+  <wsdl:message name="getMsrpVehicleAndValueByVinSoapOut">
+    <wsdl:part name="parameters" element="tns:getMsrpVehicleAndValueByVinResponse" />
+  </wsdl:message>
+  <wsdl:message name="getHighVehicleAndValueByVinSoapIn">
+    <wsdl:part name="parameters" element="tns:getHighVehicleAndValueByVin" />
+  </wsdl:message>
+  <wsdl:message name="getHighVehicleAndValueByVinSoapOut">
+    <wsdl:part name="parameters" element="tns:getHighVehicleAndValueByVinResponse" />
+  </wsdl:message>
+  <wsdl:message name="getLowVehicleAndValueByVinSoapIn">
+    <wsdl:part name="parameters" element="tns:getLowVehicleAndValueByVin" />
+  </wsdl:message>
+  <wsdl:message name="getLowVehicleAndValueByVinSoapOut">
+    <wsdl:part name="parameters" element="tns:getLowVehicleAndValueByVinResponse" />
+  </wsdl:message>
+  <wsdl:message name="getAuctionValuesSoapIn">
+    <wsdl:part name="parameters" element="tns:getAuctionValues" />
+  </wsdl:message>
+  <wsdl:message name="getAuctionValuesSoapOut">
+    <wsdl:part name="parameters" element="tns:getAuctionValuesResponse" />
+  </wsdl:message>
+  <wsdl:message name="getExperianAutoCheckReportSoapIn">
+    <wsdl:part name="parameters" element="tns:getExperianAutoCheckReport" />
+  </wsdl:message>
+  <wsdl:message name="getExperianAutoCheckReportSoapOut">
+    <wsdl:part name="parameters" element="tns:getExperianAutoCheckReportResponse" />
+  </wsdl:message>
+  <wsdl:portType name="VehicleSoap">
+    <wsdl:operation name="ping">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the boolean value true if the service is functioning and the token is valid.</wsdl:documentation>
+      <wsdl:input message="tns:pingSoapIn" />
+      <wsdl:output message="tns:pingSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getYears">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the valid years for the inputted parameters.</wsdl:documentation>
+      <wsdl:input message="tns:getYearsSoapIn" />
+      <wsdl:output message="tns:getYearsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getMakes">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the valid makes for the inputted parameters.</wsdl:documentation>
+      <wsdl:input message="tns:getMakesSoapIn" />
+      <wsdl:output message="tns:getMakesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getSeries">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the valid series for the inputted parameters.</wsdl:documentation>
+      <wsdl:input message="tns:getSeriesSoapIn" />
+      <wsdl:output message="tns:getSeriesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getBodyUids">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the valid bodies for the inputted parameters.</wsdl:documentation>
+      <wsdl:input message="tns:getBodyUidsSoapIn" />
+      <wsdl:output message="tns:getBodyUidsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getVehicles">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns an array of vehicles associated with the inputted parameters.</wsdl:documentation>
+      <wsdl:input message="tns:getVehiclesSoapIn" />
+      <wsdl:output message="tns:getVehiclesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getVehicle">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a vehicle associated with the inputted parameters.</wsdl:documentation>
+      <wsdl:input message="tns:getVehicleSoapIn" />
+      <wsdl:output message="tns:getVehicleSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getVehicleByVic">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a vehicle associated with the inputted parameters.</wsdl:documentation>
+      <wsdl:input message="tns:getVehicleByVicSoapIn" />
+      <wsdl:output message="tns:getVehicleByVicSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getAccessories">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the accessories associated with the inputted parameters.</wsdl:documentation>
+      <wsdl:input message="tns:getAccessoriesSoapIn" />
+      <wsdl:output message="tns:getAccessoriesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getInclusiveAccessories">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the packaged accessories associated with the inputted parameters.</wsdl:documentation>
+      <wsdl:input message="tns:getInclusiveAccessoriesSoapIn" />
+      <wsdl:output message="tns:getInclusiveAccessoriesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getExclusiveAccessories">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the mutually exclusive accessories associated with the inputted parameters.</wsdl:documentation>
+      <wsdl:input message="tns:getExclusiveAccessoriesSoapIn" />
+      <wsdl:output message="tns:getExclusiveAccessoriesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="validateVin">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns true if the inputted vin is valid and false if it is not.</wsdl:documentation>
+      <wsdl:input message="tns:validateVinSoapIn" />
+      <wsdl:output message="tns:validateVinSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getMileageAdj">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the mileage adjustments associated with the inputted parameters.</wsdl:documentation>
+      <wsdl:input message="tns:getMileageAdjSoapIn" />
+      <wsdl:output message="tns:getMileageAdjSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getRegions">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the valid regions for the inputted parameters.</wsdl:documentation>
+      <wsdl:input message="tns:getRegionsSoapIn" />
+      <wsdl:output message="tns:getRegionsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getRegionByStateCode">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the valid region id for the inputted two letter state code.</wsdl:documentation>
+      <wsdl:input message="tns:getRegionByStateCodeSoapIn" />
+      <wsdl:output message="tns:getRegionByStateCodeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getTotalAdjFloorValues">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the minimum total adjusted value for the inputted parameters.</wsdl:documentation>
+      <wsdl:input message="tns:getTotalAdjFloorValuesSoapIn" />
+      <wsdl:output message="tns:getTotalAdjFloorValuesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getVehicleValueByUid">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the vehicle values associated with the inputted parameters.</wsdl:documentation>
+      <wsdl:input message="tns:getVehicleValueByUidSoapIn" />
+      <wsdl:output message="tns:getVehicleValueByUidSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getBaseVehicleValueByUid">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the base vehicle values associated with the inputted parameters.</wsdl:documentation>
+      <wsdl:input message="tns:getBaseVehicleValueByUidSoapIn" />
+      <wsdl:output message="tns:getBaseVehicleValueByUidSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getVehicleAndValueByUid">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the vehicle value for the default vehicle associated with the inputted parameters.</wsdl:documentation>
+      <wsdl:input message="tns:getVehicleAndValueByUidSoapIn" />
+      <wsdl:output message="tns:getVehicleAndValueByUidSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getDefaultVehicleAndValueByVin">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the vehicle value for the default vehicle associated with the inputted parameters.</wsdl:documentation>
+      <wsdl:input message="tns:getDefaultVehicleAndValueByVinSoapIn" />
+      <wsdl:output message="tns:getDefaultVehicleAndValueByVinSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getMsrpVehicleAndValueByVin">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the  value for vehicle associated with the inputted VIN and MSRP.</wsdl:documentation>
+      <wsdl:input message="tns:getMsrpVehicleAndValueByVinSoapIn" />
+      <wsdl:output message="tns:getMsrpVehicleAndValueByVinSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getHighVehicleAndValueByVin">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the vehicle value for highest vehicle value associated with the inputted parameters.</wsdl:documentation>
+      <wsdl:input message="tns:getHighVehicleAndValueByVinSoapIn" />
+      <wsdl:output message="tns:getHighVehicleAndValueByVinSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getLowVehicleAndValueByVin">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the vehicle value for lowest vehicle value associated with the inputted parameters.</wsdl:documentation>
+      <wsdl:input message="tns:getLowVehicleAndValueByVinSoapIn" />
+      <wsdl:output message="tns:getLowVehicleAndValueByVinSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getAuctionValues">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the auction values associated with the inputted parameters.</wsdl:documentation>
+      <wsdl:input message="tns:getAuctionValuesSoapIn" />
+      <wsdl:output message="tns:getAuctionValuesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getExperianAutoCheckReport">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns Experian AutoCheck reports with the inputted parameters. Requires Experian AutoCheck credentials.</wsdl:documentation>
+      <wsdl:input message="tns:getExperianAutoCheckReportSoapIn" />
+      <wsdl:output message="tns:getExperianAutoCheckReportSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="VehicleSoap" type="tns:VehicleSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ping">
+      <soap:operation soapAction="http://webservice.nada.com/ping" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getYears">
+      <soap:operation soapAction="http://webservice.nada.com/getYears" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMakes">
+      <soap:operation soapAction="http://webservice.nada.com/getMakes" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getSeries">
+      <soap:operation soapAction="http://webservice.nada.com/getSeries" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getBodyUids">
+      <soap:operation soapAction="http://webservice.nada.com/getBodyUids" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getVehicles">
+      <soap:operation soapAction="http://webservice.nada.com/getVehicles" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getVehicle">
+      <soap:operation soapAction="http://webservice.nada.com/getVehicle" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getVehicleByVic">
+      <soap:operation soapAction="http://webservice.nada.com/getVehicleByVic" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAccessories">
+      <soap:operation soapAction="http://webservice.nada.com/getAccessories" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getInclusiveAccessories">
+      <soap:operation soapAction="http://webservice.nada.com/getInclusiveAccessories" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getExclusiveAccessories">
+      <soap:operation soapAction="http://webservice.nada.com/getExclusiveAccessories" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="validateVin">
+      <soap:operation soapAction="http://webservice.nada.com/validateVin" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMileageAdj">
+      <soap:operation soapAction="http://webservice.nada.com/getMileageAdj" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getRegions">
+      <soap:operation soapAction="http://webservice.nada.com/getRegions" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getRegionByStateCode">
+      <soap:operation soapAction="http://webservice.nada.com/getRegionByStateCode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getTotalAdjFloorValues">
+      <soap:operation soapAction="http://webservice.nada.com/getTotalAdjFloorValues" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getVehicleValueByUid">
+      <soap:operation soapAction="http://webservice.nada.com/getVehicleValueByUid" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getBaseVehicleValueByUid">
+      <soap:operation soapAction="http://webservice.nada.com/getBaseVehicleValueByUid" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getVehicleAndValueByUid">
+      <soap:operation soapAction="http://webservice.nada.com/getVehicleAndValueByUid" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDefaultVehicleAndValueByVin">
+      <soap:operation soapAction="http://webservice.nada.com/getDefaultVehicleAndValueByVin" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMsrpVehicleAndValueByVin">
+      <soap:operation soapAction="http://webservice.nada.com/getMsrpVehicleAndValueByVin" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getHighVehicleAndValueByVin">
+      <soap:operation soapAction="http://webservice.nada.com/getHighVehicleAndValueByVin" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getLowVehicleAndValueByVin">
+      <soap:operation soapAction="http://webservice.nada.com/getLowVehicleAndValueByVin" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAuctionValues">
+      <soap:operation soapAction="http://webservice.nada.com/getAuctionValues" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getExperianAutoCheckReport">
+      <soap:operation soapAction="http://webservice.nada.com/getExperianAutoCheckReport" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="VehicleSoap12" type="tns:VehicleSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ping">
+      <soap12:operation soapAction="http://webservice.nada.com/ping" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getYears">
+      <soap12:operation soapAction="http://webservice.nada.com/getYears" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMakes">
+      <soap12:operation soapAction="http://webservice.nada.com/getMakes" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getSeries">
+      <soap12:operation soapAction="http://webservice.nada.com/getSeries" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getBodyUids">
+      <soap12:operation soapAction="http://webservice.nada.com/getBodyUids" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getVehicles">
+      <soap12:operation soapAction="http://webservice.nada.com/getVehicles" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getVehicle">
+      <soap12:operation soapAction="http://webservice.nada.com/getVehicle" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getVehicleByVic">
+      <soap12:operation soapAction="http://webservice.nada.com/getVehicleByVic" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAccessories">
+      <soap12:operation soapAction="http://webservice.nada.com/getAccessories" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getInclusiveAccessories">
+      <soap12:operation soapAction="http://webservice.nada.com/getInclusiveAccessories" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getExclusiveAccessories">
+      <soap12:operation soapAction="http://webservice.nada.com/getExclusiveAccessories" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="validateVin">
+      <soap12:operation soapAction="http://webservice.nada.com/validateVin" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMileageAdj">
+      <soap12:operation soapAction="http://webservice.nada.com/getMileageAdj" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getRegions">
+      <soap12:operation soapAction="http://webservice.nada.com/getRegions" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getRegionByStateCode">
+      <soap12:operation soapAction="http://webservice.nada.com/getRegionByStateCode" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getTotalAdjFloorValues">
+      <soap12:operation soapAction="http://webservice.nada.com/getTotalAdjFloorValues" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getVehicleValueByUid">
+      <soap12:operation soapAction="http://webservice.nada.com/getVehicleValueByUid" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getBaseVehicleValueByUid">
+      <soap12:operation soapAction="http://webservice.nada.com/getBaseVehicleValueByUid" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getVehicleAndValueByUid">
+      <soap12:operation soapAction="http://webservice.nada.com/getVehicleAndValueByUid" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDefaultVehicleAndValueByVin">
+      <soap12:operation soapAction="http://webservice.nada.com/getDefaultVehicleAndValueByVin" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMsrpVehicleAndValueByVin">
+      <soap12:operation soapAction="http://webservice.nada.com/getMsrpVehicleAndValueByVin" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getHighVehicleAndValueByVin">
+      <soap12:operation soapAction="http://webservice.nada.com/getHighVehicleAndValueByVin" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getLowVehicleAndValueByVin">
+      <soap12:operation soapAction="http://webservice.nada.com/getLowVehicleAndValueByVin" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAuctionValues">
+      <soap12:operation soapAction="http://webservice.nada.com/getAuctionValues" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getExperianAutoCheckReport">
+      <soap12:operation soapAction="http://webservice.nada.com/getExperianAutoCheckReport" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Vehicle">
+    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This is NADA Web Service into its vehicle evaluation data.</wsdl:documentation>
+    <wsdl:port name="VehicleSoap" binding="tns:VehicleSoap">
+      <soap:address location="http://webservice.nada.com/vehicles/Vehicle.asmx" />
+    </wsdl:port>
+    <wsdl:port name="VehicleSoap12" binding="tns:VehicleSoap12">
+      <soap12:address location="http://webservice.nada.com/vehicles/Vehicle.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
