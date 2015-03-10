@@ -29,9 +29,9 @@ module VinData::Services
       return @token if @token.present?
 
       fail 'NADA requires username and password' unless configuration[:username].present? &&
-                                        configuration[:password].present?
+                                                        configuration[:password].present?
 
-      wsdl_path = File.expand_path(File.join(File.dirname(__FILE__), '../wsdls/TestSecureLogin.wsdl'))
+      wsdl_path = File.expand_path(File.join(File.dirname(__FILE__), '../wsdls/ProdSecureLogin.wsdl'))
       # do auth login to get token
       client = Savon.client(
         wsdl: wsdl_path,
@@ -54,7 +54,7 @@ module VinData::Services
     def get_client
       wsdl_path = File.expand_path(
                                     File.join(File.dirname(__FILE__),
-                                    '../wsdls/TestVehicle.wsdl')
+                                    '../wsdls/ProdVehicle.wsdl')
                                   )
       # do auth login to get token
       client = Savon.client(
