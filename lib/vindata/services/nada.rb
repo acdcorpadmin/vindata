@@ -69,6 +69,7 @@ module VinData::Services
     end
 
     def get_region_by_state(state)
+      tries ||= 2
       client = get_client
       data = client.call(:get_region_by_state_code,
                          message: { 'l_Request' => { 'Token' => get_token,
@@ -79,6 +80,9 @@ module VinData::Services
                                   }
                         )
       data.to_hash[:get_region_by_state_code_response][:get_region_by_state_code_result]
+    rescue Savon::SOAPFault => error
+      retry if (tries -= 1) > 0
+      raise error.message
     end
 
     def details_by_vin(vin)
@@ -110,6 +114,8 @@ module VinData::Services
       client = get_client
 
       begin
+        tries ||= 2
+
         data = client.call(:get_default_vehicle_and_value_by_vin,
                            message: { 'vehicleRequest' =>
                                         { 'Token' => token,
@@ -132,6 +138,7 @@ module VinData::Services
 
       rescue Savon::SOAPFault => error
         return false if error.message.include? 'No vehicle found'
+        retry if (tries -= 1) > 0
         raise error.message
       end
     end
