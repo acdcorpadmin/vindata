@@ -28,8 +28,8 @@ module VinData::Services
       # we don't want to get the token every time
       # return @token if @token.present?
 
-      fail 'NADA requires username and password' unless configuration[:username].present? &&
-                                                        configuration[:password].present?
+      fail 'NADA requires username and password' unless configuration[:nada][:username].present? &&
+                                                        configuration[:nada][:password].present?
 
       wsdl_path = File.expand_path(File.join(File.dirname(__FILE__), '../wsdls/ProdSecureLogin.wsdl'))
       # do auth login to get token
@@ -43,8 +43,8 @@ module VinData::Services
       )
       data = client.call(:get_token,
                          message: { 'tokenRequest' =>
-                                    { 'Username' => configuration[:username],
-                                      'Password' => configuration[:password]
+                                    { 'Username' => configuration[:nada][:username],
+                                      'Password' => configuration[:nada][:password]
                                     }
                                   }
                         )

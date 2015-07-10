@@ -13,4 +13,6 @@ Gem::Specification.new do |s|
   s.email       = 'roupen@acdcorp.com'
   s.files       = `git ls-files`.split("\n")
   s.homepage    = 'https://github.com/orgs/acdcorp/'
+
+  s.add_runtime_dependency 'rest-client', '>= 1.7.2'
 end

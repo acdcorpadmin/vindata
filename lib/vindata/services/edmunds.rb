@@ -16,7 +16,7 @@ module VinData::Services
       begin
         response = JSON.parse(RestClient.get vinlookup, {:params => {
           fmt: 'json',
-          api_key: configuration[:api_key]
+          api_key: configuration[:edmunds][:api_key]
           }})
 
         # TODO: Check data validity here
@@ -24,7 +24,8 @@ module VinData::Services
         return {
           make: response['make']['niceName'],
           model: response['model']['niceName'],
-          year: response['years'][0]['year']
+          year: response['years'][0]['year'],
+          edmunds: response
         }
       # Indicates VIN request failed with Edmunds
       rescue RestClient::BadRequest => err
@@ -50,7 +51,7 @@ module VinData::Services
       stylelookup = base_url + data[:make] + '/' + data[:model] + '/' + data[:year].to_s + '/styles'
       response = JSON.parse(RestClient.get stylelookup, {:params => {
         fmt: 'json',
-        api_key: configuration[:api_key]
+        api_key: configuration[:edmunds][:api_key]
         }})
 
       # TODO: Check data validity here
@@ -62,7 +63,7 @@ module VinData::Services
         mileage: data[:mileage],
         zip: data[:zip],
         fmt: 'json',
-        api_key: configuration[:api_key]
+        api_key: configuration[:edmunds][:api_key]
         }})
 
       # TODO: Check data validity here
@@ -71,9 +72,9 @@ module VinData::Services
       else
         return {
           common: {
-            retail: response['tmv']['nationalBasePrice']['usedTmvRetail'],
-            private_party: response['tmv']['nationalBasePrice']['usedPrivateParty'],
-            trade_in: response['tmv']['nationalBasePrice']['usedTradeIn']
+            retail: response['tmv']['totalWithOptions']['usedTmvRetail'],
+            private_party: response['tmv']['totalWithOptions']['usedPrivateParty'],
+            trade_in: response['tmv']['totalWithOptions']['usedTradeIn']
           },
           edmunds: response
         }
