@@ -33,11 +33,12 @@ module VinData
     end
 
     def configure(options)
-      @data.rmerge!(options)
+      @data.merge!(options)
     end
 
     def initialize # :nodoc
-      @data = VinData::ConfigurationHash.new
+      # @data = VinData::ConfigurationHash.new
+      @data = {}
       set_defaults
     end
 
@@ -64,11 +65,11 @@ module VinData
 
   end
 
-  class ConfigurationHash < Hash
-    include HashRecursiveMerge
-
-    def method_missing(meth, *args, &block)
-      has_key?(meth) ? self[meth] : super
-    end
-  end
+  # class ConfigurationHash < Hash
+  #   include HashRecursiveMerge
+  #
+  #   def method_missing(meth, *args, &block)
+  #     has_key?(meth) ? self[meth] : super
+  #   end
+  # end
 end
