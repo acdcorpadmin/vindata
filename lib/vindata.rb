@@ -1,5 +1,5 @@
 # External gems
-require 'rest_client' if defined?(RestClient)
+require 'rest_client'
 
 # Internal files
 require 'vindata/configuration'
@@ -14,5 +14,10 @@ module VinData
   def self.get_acv data, service = config[:service]
     service = Services.get service
     service.get_acv data
+  end
+
+  def self.recalls data, service = config[:service]
+    service = Services.get service
+    service.recalls data
   end
 end
