@@ -44,7 +44,14 @@ module VinData::Services
       year_id = response['years'].select{ |x| x['year'] == data[:year] }.first['id']
 
       recall_url = 'https://api.edmunds.com/v1/api/maintenance/recallrepository/findbymodelyearid'
-      response = JSON.parse(RestClient.get recall_url, {:params => {
+      recall_response = JSON.parse(RestClient.get recall_url, {:params => {
+        modelyearid: year_id,
+        fmt: 'json',
+        api_key: configuration[:edmunds][:api_key]
+        }})
+
+      bulletin_url = 'https://api.edmunds.com/v1/api/maintenance/servicebulletinrepository/findbymodelyearid'
+      bulletin_response = JSON.parse(RestClient.get bulletin_url, {:params => {
         modelyearid: year_id,
         fmt: 'json',
         api_key: configuration[:edmunds][:api_key]
@@ -53,7 +60,10 @@ module VinData::Services
       # TODO: Check data validity here
 
       return {
-        edmunds: response
+        edmunds: {
+          recalls: recall_response,
+          bulletins: bulletin_response
+        }
       }
     # Indicates VIN request failed with Edmunds
     rescue RestClient::BadRequest => err
