@@ -19,13 +19,16 @@ module VinData::Services
         }})
 
       # TODO: Check data validity here
-
-      return {
-        make: response['make']['niceName'],
-        model: response['model']['niceName'],
-        year: response['years'][0]['year'],
-        edmunds: response
-      }
+      ret = {}
+      ret[:make] = response['make']['niceName']
+      if response['model']
+        ret[:model] = response['model']['niceName']
+      elsif response['years'].first['styles'].first['submodel']
+        ret[:model] = response['years'].first['styles'].first['submodel']['modelName']
+      end
+      ret[:year] = response['years'][0]['year']
+      ret[:edmunds] = response
+      return ret
     # Indicates VIN request failed with Edmunds
     rescue RestClient::BadRequest => err
       return nil
@@ -35,13 +38,17 @@ module VinData::Services
     end
 
     def recalls data
-      # return nil unless data[:style_id]
-      years_url = "https://api.edmunds.com/api/vehicle/v2/#{data[:make]}/#{data[:model]}"
-      response = JSON.parse(RestClient.get years_url, {:params => {
-        fmt: 'json',
-        api_key: configuration[:edmunds][:api_key]
-        }})
-      year_id = response['years'].select{ |x| x['year'] == data[:year] }.first['id']
+      if data[:edmunds] && data[:edmunds]['years'][0]
+        year_id = data[:edmunds]['years'][0]['id']
+      else
+        # return nil unless data[:style_id]
+        years_url = "https://api.edmunds.com/api/vehicle/v2/#{data[:make]}/#{data[:model]}"
+        response = JSON.parse(RestClient.get years_url, {:params => {
+          fmt: 'json',
+          api_key: configuration[:edmunds][:api_key]
+          }})
+        year_id = response['years'].select{ |x| x['year'] == data[:year] }.first['id']
+      end
 
       recall_url = 'https://api.edmunds.com/v1/api/maintenance/recallrepository/findbymodelyearid'
       recall_response = JSON.parse(RestClient.get recall_url, {:params => {
