@@ -92,8 +92,17 @@ module VinData::Services
     #   :mileage
     #   :zip
     def get_acv data
-      return nil unless ((data[:make] && data[:model] && data[:year]) || data[:vin]) && data[:mileage] && data[:zip]
-      if data[:vin]
+
+      info_is_present = data[:make] && data[:model] && data[:year]
+      vin_is_present = data[:vin].present?
+      condition_is_present = data[:condition].present?
+      location_is_present = data[:mileage] && data[:zip]
+
+      return nil unless (info_is_present || vin_is_present) &&
+        location_is_present &&
+        condition_is_present
+
+      if vin_is_present
         car_details = details_by_vin data.delete(:vin)
         return nil unless car_details
         data.merge! car_details
@@ -107,12 +116,12 @@ module VinData::Services
       acvlookup = 'https://api.edmunds.com/v1/api/tmv/tmvservice/calculateusedtmv'
       response = JSON.parse(RestClient.get acvlookup, {:params => {
         styleid: response['styles'][0]['id'],
-        condition: 'Clean',
+        condition: data[:condition].to_s.capitalize,
         mileage: data[:mileage],
         zip: data[:zip],
         fmt: 'json',
         api_key: configuration[:edmunds][:api_key]
-        }})
+      }})
 
       # TODO: Check data validity here
       if response == nil || response['tmv'] == nil
