@@ -33,9 +33,9 @@ module VinData::Services
 
       wsdl_path = File.expand_path(File.join(File.dirname(__FILE__), '../wsdls/ProdSecureLogin.wsdl'))
       # do auth login to get token
-      ssl_cert = File.join(__dir__, 'nada_certs/TrustedRoot.pem')
-      ssl_cert_key = File.join(__dir__, 'nada_certs/Nada_com.pem')
-      ssl_ca_cert = File.join(__dir__, 'nada_certs/DigiCertCA.pem')
+      ssl_cert = File.join(__dir__, '../nada_certs/TrustedRoot.pem')
+      ssl_cert_key = File.join(__dir__, '../nada_certs/Nada_com.pem')
+      ssl_ca_cert = File.join(__dir__, '../nada_certs/DigiCertCA.pem')
       client = Savon.client(
         wsdl: wsdl_path,
         raise_errors: true,
@@ -64,9 +64,9 @@ module VinData::Services
                                     '../wsdls/ProdVehicle.wsdl')
                                   )
       # do auth login to get token
-      ssl_cert = File.join(__dir__, 'nada_certs/TrustedRoot.pem')
-      ssl_cert_key = File.join(__dir__, 'nada_certs/Nada_com.pem')
-      ssl_ca_cert = File.join(__dir__, 'nada_certs/DigiCertCA.pem')
+      ssl_cert = File.join(__dir__, '../nada_certs/TrustedRoot.pem')
+      ssl_cert_key = File.join(__dir__, '../nada_certs/Nada_com.pem')
+      ssl_ca_cert = File.join(__dir__, '../nada_certs/DigiCertCA.pem')
       client = Savon.client(
         wsdl: wsdl_path,
         raise_errors: true,
